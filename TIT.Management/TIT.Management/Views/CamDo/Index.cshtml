@@ -1,0 +1,449 @@
+﻿@model IEnumerable<TIT.Management.Models.CamDoGridViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Danh sách hợp đồng cầm đồ</h3>
+            </div>
+
+            <!-- /.box-header -->
+            <div class="box-body">
+                <button class="btn btn-primary" id="btnCreate"><i class="fa fa-plus-square"></i> Tạo hợp đồng mới</button>
+                <button class="btn btn-success"><i class="fa fa-file-excel-o"></i> Xuất excel</button>
+                <!-- /.modal -->
+
+
+
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Mã HĐ</th>
+                            <th>Khách hàng</th>
+                            <th>Tài sản</th>
+                            <th>VNĐ</th>
+                            <th>Ngày cầm</th>
+                            <th>Lãi đã đóng</th>
+                            <th>Nợ cũ</th>
+                            <th>Lãi phí đến hôm nay</th>
+                            <th>Tình trạng</th>
+                            <th>Ngày phải đóng lãi</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HopDong_Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TenKhachHang)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TaiSan)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SoTien)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NgayTaoHopDong)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LaiDaDong)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoCu)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LaiPhiDenHomNay)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TinhTrang)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NgayPhaiDongLai)
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-info btn-default" onclick='DongTienLai("@item.HopDong_Id")'><i class="fa fa-money"></i></a>
+                                        <button type="button" class="btn btn-danger btn-default"><i class="fa fa-remove"></i></button>
+                                        <button type="button" class="btn btn-default"><i class="fa fa-clock-o"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<div class="modal fade" id="createNewContract">
+    <div class="modal-dialog">
+        <form role="form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Tạo mới hợp đồng</h4>
+                </div>
+                <div class="modal-body">
+                    <table style="width:100%" class="my-table">
+                        <tr>
+                            <td width="50%">
+                                <label for="exampleInputEmail1">CMND</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Nhập CMND">
+                            </td>
+                            <th width="50%"></th>
+                        </tr>
+                        <tr style="margin-top:10px">
+                            <td>
+                                <label for="exampleInputPassword1">Tên khách hàng</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+
+                            </td>
+                            <td>
+                                <label for="exampleInputPassword1">Số điện thoại</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Số điện thoại">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label for="exampleInputPassword1">Địa chỉ</label>
+                                <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ">
+                        </textarea>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <h4>Thông tin hợp đồng</h4>
+                    <table style="width:100%" class="my-table">
+                        <tr>
+                            <td width="20%"><label for="exampleInputEmail1">Loại tài sản</label></td>
+                            <td width="40%">
+                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Loại tài sản">
+                            </td>
+                            <td width="40%">
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên tài sản">
+                            </td>
+                        </tr>
+                        <tr style="margin-top:10px">
+                            <td><label for="exampleInputPassword1">Số tiền cầm</label></td>
+                            <td>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1">Hình thức thanh toán</label>
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                            </td>
+                            <td>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Thu lãi phí trước
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1">Lãi phí</label>
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1">Kỳ lãi phí</label>
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                            </td>
+                            <td>(VD : 10 ngày đóng lãi phí 1 lần thì điền số 10 )</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1">Lãi phí</label>
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1">Ngày vay</label>
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1">Ghi chú</label>
+                            </td>
+                            <td colspan="2">
+                                <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ">
+                        </textarea>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="payForContract">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Đóng tiền lãi</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <table class="table table-hover table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th colspan="2">
+                                        <strong id="TenKhachHang">Tên khách hàng</strong>-<font color="blue" id="MaHopDong">Mã HĐ</font>
+                                        <br />
+                                        <small class="text-danger" id="SoDienThoai">Sđt: Số điện thoại</small>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Tiền cầm</th>
+                                    <td id="SoTien">20,000,000</td>
+                                </tr>
+                                <tr>
+                                    <th>Ngày vay</th>
+                                    <td id="NgayVay">26/01/2019</td>
+                                </tr>
+                                <tr>
+                                    <th>Ngày trả lãi gần nhất</th>
+                                    <td id="NgayDongLaiCuoiCung">26/01/2019</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-hover table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>Lãi suất</th>
+                                    <td id="LaiSuat"></td>
+                                </tr>
+                                <tr>
+                                    <th>Tiền lãi đã đóng</th>
+                                    <td id="TienLaiDaDong"></td>
+                                </tr>
+                                <tr>
+                                    <th>Nợ cũ</th>
+                                    <td id="NoCu">Chưa có</td>
+                                </tr>
+                                <tr>
+                                    <th>Trạng thái</th>
+                                    <td style="background-color:green" id="TrangThai">Hôm nay</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">Đóng lãi phí</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">Trả bớt gốc</a></li>
+                        <li><a href="#tab_3" data-toggle="tab">Vay thêm</a></li>
+                        <li><a href="#tab_4" data-toggle="tab">Chuộc đồ</a></li>
+                        <li><a href="#tab_5" data-toggle="tab">Nợ</a></li>
+                        <li><a href="#tab_6" data-toggle="tab">Chứng từ</a></li>
+                        <li><a href="#tab_7" data-toggle="tab">Lịch sử</a></li>
+                        <li><a href="#tab_8" data-toggle="tab">Hẹn giờ</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <div class="box box-primary">
+                                <form role="form">
+                                    <div class="box-body">
+                                        <table style="width:100%" class="my-table">
+                                            <tr>
+                                                <th width="20%"><label for="exampleInputEmail1">Lãi từ ngày:</label></th>
+                                                <td width="40%">20/11/2018</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="exampleInputPassword1">Lãi đến ngày:</label></th>
+                                                <td>
+                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                                </td>
+                                                <td>
+                                                    ( Ngày đóng lãi phí tiếp : 11-02-2019)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="exampleInputPassword1">Số ngày:</label></th>
+                                                <td>
+                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                                </td>
+                                                <td>Ngày</td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="exampleInputPassword1">Tiền lãi phí:</label></th>
+                                                <td>800,000</td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="exampleInputPassword1">Tiền khác:</label></th>
+                                                <td>
+                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><label for="exampleInputPassword1">Tổng tiền:</label></th>
+                                                <td>800,000</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="box-header with-border">
+                                <i class="fa fa-list"></i>
+                                <h3 class="box-title">Lịch sử đóng lãi</h3>
+                            </div>
+
+                        </div>
+
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_2">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_3">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_4">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_5">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_6">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_7">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_8">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+       
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<link rel="stylesheet" href="~/admin-lte/datatables.net-bs/css/dataTables.bootstrap.min.css">
+@section scripts {
+    <!-- DataTables -->
+    <script src="~/admin-lte/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/admin-lte/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="~/admin-lte/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/admin-lte/fastclick/lib/fastclick.js"></script>
+
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                'columnDefs': [
+                    {
+                        // The `data` parameter refers to the data for the cell (defined by the
+                        // `data` option, which defaults to the column being worked with, in
+                        // this case `data: 0`.
+                        "render": function (data, type, row) {
+                            return data.toString().replace(
+                                /\B(?=(\d{3})+(?!\d))/g, ","
+                            );
+                        },
+                        "targets": 3
+                    }
+                ]
+            })
+        })
+        $("#btnCreate").click(function () {
+            $('#createNewContract').modal('show');
+        });
+        function DongTienLai(MaHopDong) {
+            $('#payForContract').modal('show');
+        }
+    </script>
+}
+
+
+<style>
+    .my-table td {
+        margin: 2px 2px 2px 2px;
+        padding: 2px 2px 2px 2px;
+    }
+
+    .my-table {
+        border-collapse: separate;
+        border-spacing: 5px;
+        *border-collapse: expression('separate', cellSpacing = '5px');
+    }
+</style>
