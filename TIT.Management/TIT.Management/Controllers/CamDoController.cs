@@ -4,25 +4,39 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TIT.Management.Models;
+using Microsoft.AspNet.Identity;
 namespace TIT.Management.Controllers
 {
+
     public class CamDoController : Controller
     {
+        public string GetUserRole()
+        {
+            if (User.IsInRole("Admin"))
+                return "Admin";
+            else if (User.IsInRole("BranchManager"))
+                return "BranchManager";
+            else
+                return "Employee";
+        }
         // GET: CamDo
         public ActionResult Index()
         {
-            List<CamDoGridViewModel> models = new List<CamDoGridViewModel>();
-            models.Add(new CamDoGridViewModel() {
-                HopDong_Id = "CD-1",
-                TenKhachHang = "Trần Văn A",
-                SoTien = "100000000"
-            });
-            models.Add(new CamDoGridViewModel()
-            {
-                HopDong_Id = "CD-2",
-                TenKhachHang = "Trần Văn B",
-                SoTien = "10000000"
-            });
+            IEnumerable<CamDoGridViewModel> models = TIT.Datas.Services.CamDoService.GetGridViewModel(User.Identity.GetUserId(), GetUserRole()).Select(
+                x => new CamDoGridViewModel() {
+                    HopDong_Id = x.HopDong_Id,
+                    TenKhachHang = x.TenKhachHang,
+                    LaiDaDong = x.LaiDaDong,
+                    LaiPhiDenHomNay = x.LaiPhiDenHomNay,
+                    NgayPhaiDongLai = x.NgayPhaiDongLai,
+                    NgayTaoHopDong = x.NgayTaoHopDong,
+                    NoCu= x.NoCu,
+                    SoDienThoai = x.SoDienThoai,
+                    SoTien = x.SoTien,
+                    TaiSan = x.TaiSan,
+                    TinhTrang = x.TinhTrang
+                });
+
             return View(models);
         }
     }

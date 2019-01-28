@@ -127,7 +127,7 @@
                             <td colspan="2">
                                 <label for="exampleInputPassword1">Địa chỉ</label>
                                 <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ">
-                        </textarea>
+                                </textarea>
                             </td>
                         </tr>
                     </table>
@@ -348,21 +348,134 @@
                             <div class="box-header with-border">
                                 <i class="fa fa-list"></i>
                                 <h3 class="box-title">Lịch sử đóng lãi</h3>
+                                <table id="example2" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Từ ngày</th>
+                                            <th>Đến ngày</th>
+                                            <th>Số ngày</th>
+                                            <th>Tiền lãi phí</th>
+                                            <th>Tiền khác</th>
+                                            <th>Tổng tiền trả</th>
+                                            <th><input type="checkbox"></th>
+                                        </tr>
+                                    </thead>
+                                   
+                                </table>
                             </div>
 
                         </div>
 
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_2">
-
+                            <form role="form">
+                                <div class="box-body">
+                                    <table style="width:100%" class="my-table">
+                                        <tr>
+                                            <th width="20%"><label for="exampleInputEmail1">Ngày trả trước gốc</label></th>
+                                            <td width="40%"><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Số tiền gốc trả trước</label></th>
+                                            <td>
+                                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                            </td>
+                                            <td>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Ghi chú</label></th>
+                                            <td>
+                                                <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ"></textarea>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_3">
-
+                            <form role="form">
+                                <div class="box-body">
+                                    <table style="width:100%" class="my-table">
+                                        <tr>
+                                            <th width="20%"><label for="exampleInputEmail1">Ngày vay thêm gốc</label></th>
+                                            <td width="40%"><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Số tiền vay thêm</label></th>
+                                            <td>
+                                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Ghi chú</label></th>
+                                            <td>
+                                                <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ"></textarea>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_4">
-
+                            <form role="form">
+                                <div class="box-body">
+                                    <table style="width:100%" class="my-table">
+                                        <tr>
+                                            <th width="20%"><label for="exampleInputEmail1">Ngày chuộc đồ</label></th>
+                                            <td width="40%"><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Tiền cầm</label></th>
+                                            <td>10,000,000</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Nợ cũ</label></th>
+                                            <td>0</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Tiền lãi phí</label></th>
+                                            <td>280,000 vnđ (7 ngày)</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Tiền khác</label></th>
+                                            <td>
+                                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="exampleInputPassword1">Tổng tiền chuộc</label></th>
+                                            <td>10,280,000 vnđ</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_5">
@@ -374,7 +487,19 @@
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_7">
+                            <table id="example2" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Ngày</th>
+                                        <th>Giao dịch viên</th>
+                                        <th>Số tiền ghi nợ</th>
+                                        <th>Số tiền ghi có</th>
+                                        <th>Nội dung</th>
+                                    </tr>
+                                </thead>
 
+                            </table>
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_8">
