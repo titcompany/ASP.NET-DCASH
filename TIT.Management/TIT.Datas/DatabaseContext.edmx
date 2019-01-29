@@ -103,6 +103,25 @@
           <Property Name="TongThuKhac" Type="money" Nullable="false" />
           <Property Name="TongChiKhac" Type="money" Nullable="false" />
         </EntityType>
+        <EntityType Name="BaoCaoTongKet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_CuaHang" Type="int" Nullable="false" />
+          <Property Name="Ngay" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="SoTienDauNgay" Type="money" Nullable="false" />
+          <Property Name="CamDo_Thu" Type="money" Nullable="false" />
+          <Property Name="CamDo_Chi" Type="money" Nullable="false" />
+          <Property Name="VayLai_Thu" Type="money" Nullable="false" />
+          <Property Name="VayLai_Chi" Type="money" Nullable="false" />
+          <Property Name="BatHo_Thu" Type="money" Nullable="false" />
+          <Property Name="BatHo_Chi" Type="money" Nullable="false" />
+          <Property Name="HoatDong_Thu" Type="money" Nullable="false" />
+          <Property Name="HoatDong_Chi" Type="money" Nullable="false" />
+          <Property Name="NguonVon_Thu" Type="money" Nullable="false" />
+          <Property Name="NguonVon_Chi" Type="money" Nullable="false" />
+        </EntityType>
         <EntityType Name="CuaHang">
           <Key>
             <PropertyRef Name="MaCuaHang" />
@@ -162,6 +181,7 @@
           <Property Name="NhanVien_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="NgayTao" Type="datetime" Nullable="false" />
           <Property Name="NgayCuoiCungDongTienLai" Type="datetime" />
+          <Property Name="ThoiHan" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="HD_ChoVay">
           <Key>
@@ -401,6 +421,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BaoCaoHangNgay" EntityType="Self.BaoCaoHangNgay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BaoCaoTongKet" EntityType="Self.BaoCaoTongKet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CuaHang" EntityType="Self.CuaHang" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HD_BatHo" EntityType="Self.HD_BatHo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HD_CamDo" EntityType="Self.HD_CamDo" Schema="dbo" store:Type="Tables" />
@@ -525,6 +546,7 @@
             <Parameter Name="LaiThangDau" Mode="In" Type="Decimal" />
             <Parameter Name="SoTienPhaiDongMoiThang" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <EntitySet Name="BaoCaoTongKets" EntityType="TIT_Model.BaoCaoTongKet" />
           </EntityContainer>
         <ComplexType Name="GetSaleReport_Result">
           <Property Type="Int32" Name="DeviceId" Nullable="false" />
@@ -778,6 +800,7 @@
           <Property Name="NhanVien_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="NgayTao" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="NgayCuoiCungDongTienLai" Type="DateTime" Precision="3" />
+          <Property Name="ThoiHan" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ThongTinThuChi">
           <Key>
@@ -1065,6 +1088,25 @@
           <Property Name="TongCongTon" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="TenKhachHang" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="BaoCaoTongKet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_CuaHang" Type="Int32" Nullable="false" />
+          <Property Name="Ngay" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SoTienDauNgay" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CamDo_Thu" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CamDo_Chi" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="VayLai_Thu" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="VayLai_Chi" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="BatHo_Thu" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="BatHo_Chi" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="HoatDong_Thu" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="HoatDong_Chi" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="NguonVon_Thu" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="NguonVon_Chi" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1131,6 +1173,7 @@
           <EntitySetMapping Name="HD_CamDo">
             <EntityTypeMapping TypeName="TIT_Model.HD_CamDo">
               <MappingFragment StoreEntitySet="HD_CamDo">
+                <ScalarProperty Name="ThoiHan" ColumnName="ThoiHan" />
                 <ScalarProperty Name="NgayCuoiCungDongTienLai" ColumnName="NgayCuoiCungDongTienLai" />
                 <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
                 <ScalarProperty Name="NhanVien_Id" ColumnName="NhanVien_Id" />
@@ -1437,6 +1480,26 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="ThemHopDongDNGD" FunctionName="TIT_Model.Store.ThemHopDongDNGD" />
+          <EntitySetMapping Name="BaoCaoTongKets">
+            <EntityTypeMapping TypeName="TIT_Model.BaoCaoTongKet">
+              <MappingFragment StoreEntitySet="BaoCaoTongKet">
+                <ScalarProperty Name="NguonVon_Chi" ColumnName="NguonVon_Chi" />
+                <ScalarProperty Name="NguonVon_Thu" ColumnName="NguonVon_Thu" />
+                <ScalarProperty Name="HoatDong_Chi" ColumnName="HoatDong_Chi" />
+                <ScalarProperty Name="HoatDong_Thu" ColumnName="HoatDong_Thu" />
+                <ScalarProperty Name="BatHo_Chi" ColumnName="BatHo_Chi" />
+                <ScalarProperty Name="BatHo_Thu" ColumnName="BatHo_Thu" />
+                <ScalarProperty Name="VayLai_Chi" ColumnName="VayLai_Chi" />
+                <ScalarProperty Name="VayLai_Thu" ColumnName="VayLai_Thu" />
+                <ScalarProperty Name="CamDo_Chi" ColumnName="CamDo_Chi" />
+                <ScalarProperty Name="CamDo_Thu" ColumnName="CamDo_Thu" />
+                <ScalarProperty Name="SoTienDauNgay" ColumnName="SoTienDauNgay" />
+                <ScalarProperty Name="Ngay" ColumnName="Ngay" />
+                <ScalarProperty Name="Id_CuaHang" ColumnName="Id_CuaHang" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

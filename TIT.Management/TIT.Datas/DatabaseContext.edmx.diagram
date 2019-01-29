@@ -24,6 +24,7 @@
         <EntityTypeShape EntityType="TIT_Model.BaoCaoHangNgay" Width="1.5" PointX="13.375" PointY="14.75" />
         <EntityTypeShape EntityType="TIT_Model.HD_VayDuNoGiamDan" Width="1.5" PointX="0.75" PointY="15.75" />
         <EntityTypeShape EntityType="TIT_Model.LichSuThaoTac" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TIT_Model.BaoCaoTongKet" Width="1.5" PointX="15.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

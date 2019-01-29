@@ -18,5 +18,29 @@ namespace TIT.Datas.Services
             UserModel userModel = UserModel.getUserModel(userId, role);
             return userModel.GetGridViewCamDoModel();
         }
+
+        public static CamDoGridDataModel Insert(CamDoInsertNewDataModel model, string userId, string role)
+        {
+            UserModel userModel = UserModel.getUserModel(userId, role);
+            return userModel.InsertCamDo(model);
+        }
+
+        public static object GetDetailViewModel(string userId, string role, string Id_HopDong)
+        {
+            UserModel userModel = UserModel.getUserModel(userId, role);
+            return userModel.GetDetailViewModel(Id_HopDong);
+        }
+
+        public static IEnumerable<CamDoHistoryDataModel> GetHistoryViewModel(string userId, string role, string Id_HopDong)
+        {
+            UserModel userModel = UserModel.getUserModel(userId, role);
+            return userModel.GetHistoryViewModel(Id_HopDong);
+        }
+
+        public static IEnumerable<CamDoPaymentHistoryDataModel> GetHistoryPaymentViewModel(string userId, string role, string Id_HopDong)
+        {
+            UserModel userModel = UserModel.getUserModel(userId, role);
+            return userModel.GetHistoryPaymentViewModel(Id_HopDong);
+        }
     }
 }

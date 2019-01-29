@@ -32,5 +32,6 @@ namespace TIT.Datas
         public string NhanVien_Id { get; set; }
         public System.DateTime NgayTao { get; set; }
         public Nullable<System.DateTime> NgayCuoiCungDongTienLai { get; set; }
+        public int ThoiHan { get; set; }
     }
 }

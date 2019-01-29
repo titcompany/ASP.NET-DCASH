@@ -197,6 +197,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CamDoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KhachHangController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -329,6 +330,19 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\App\CamDo.js" />
+    <Content Include="Scripts\autoNumeric\AutoNumeric.js" />
+    <Content Include="Scripts\autoNumeric\AutoNumericDefaultSettings.js" />
+    <Content Include="Scripts\autoNumeric\AutoNumericEnum.js" />
+    <Content Include="Scripts\autoNumeric\AutoNumericEvents.js" />
+    <Content Include="Scripts\autoNumeric\AutoNumericHelper.js" />
+    <Content Include="Scripts\autoNumeric\AutoNumericOptions.js" />
+    <Content Include="Scripts\autoNumeric\AutoNumericPredefinedOptions.js" />
+    <Content Include="Scripts\autoNumeric\main.js" />
+    <Content Include="Scripts\autoNumeric\maths\ASTNode.js" />
+    <Content Include="Scripts\autoNumeric\maths\Evaluator.js" />
+    <Content Include="Scripts\autoNumeric\maths\Lexer.js" />
+    <Content Include="Scripts\autoNumeric\maths\Parser.js" />
+    <Content Include="Scripts\autoNumeric\maths\Token.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -406,6 +420,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\KhachHang\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

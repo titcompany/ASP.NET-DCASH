@@ -7,7 +7,42 @@ using System.Device.Location;
 
 namespace TIT.Datas.Models
 {
-
+    public class BaoCaoTongKetGiaoDichModel
+    {
+        public int MaCuaHang { get; set; }
+        public string TenCuaHang { get; set; }
+        public string Ngay_ToString { get; set; }
+        public decimal SoTienDauNgay { get; set; }
+        public decimal CamDo_Thu { get; set; }
+        public decimal CamDo_Chi { get; set; }
+        public decimal VayLai_Thu { get; set; }
+        public decimal VayLai_Chi { get; set; }
+        public decimal BatHo_Thu { get; set; }
+        public decimal BatHo_Chi { get; set; }
+        public decimal HoatDong_Thu { get; set; }
+        public decimal HoatDong_Chi { get; set; }
+        public decimal TongThu
+        {
+            get
+            {
+                return CamDo_Thu + VayLai_Thu + BatHo_Thu + HoatDong_Thu;
+            }
+        }
+        public decimal TongChi
+        {
+            get
+            {
+                return CamDo_Chi + VayLai_Chi + BatHo_Chi + HoatDong_Chi;
+            }
+        }
+        public decimal SoTienCuoiNgay
+        {
+            get
+            {
+                return SoTienDauNgay + TongThu - TongChi;
+            }
+        }
+    }
     public class ReportChiPhiHoatDongGridViewModel
     {
         [Display(Name = "STT")]

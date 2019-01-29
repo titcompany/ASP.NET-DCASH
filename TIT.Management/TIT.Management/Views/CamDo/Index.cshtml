@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<TIT.Management.Models.CamDoGridViewModel>
-
+@using TIT.Datas.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<DanhMucTaiSanModel> LoaiTaiSan = ViewBag.LoaiTaiSan as IEnumerable<DanhMucTaiSanModel>;
+    IEnumerable<DanhMucHinhThucLainModel> HinhThucLai = ViewBag.HinhThucLai as IEnumerable<DanhMucHinhThucLainModel>;
+    IEnumerable<CuaHangDataModel> CuaHang = ViewBag.CuaHang as IEnumerable<CuaHangDataModel>;
 }
 
 
@@ -94,7 +97,7 @@
 
 <div class="modal fade" id="createNewContract">
     <div class="modal-dialog">
-        <form role="form">
+        <form role="form" id="formCreateNewContract">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close"
@@ -108,25 +111,25 @@
                         <tr>
                             <td width="50%">
                                 <label for="exampleInputEmail1">CMND</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Nhập CMND">
+                                <input type="text" class="form-control" id="TaoMoi_CMND" name="CMND" placeholder="Nhập CMND" onchange="OnChangeCMND();">
                             </td>
                             <th width="50%"></th>
                         </tr>
                         <tr style="margin-top:10px">
                             <td>
                                 <label for="exampleInputPassword1">Tên khách hàng</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                <input type="text" class="form-control" id="TaoMoi_TenKhachHang" name="TenKhachHang" placeholder="Tên khách hàng">
 
                             </td>
                             <td>
                                 <label for="exampleInputPassword1">Số điện thoại</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Số điện thoại">
+                                <input type="text" class="form-control" id="TaoMoi_SoDienThoai" name="SoDienThoai" placeholder="Số điện thoại">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <label for="exampleInputPassword1">Địa chỉ</label>
-                                <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ">
+                                <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ" name="DiaChi" id="TaoMoi_DiaChi">
                                 </textarea>
                             </td>
                         </tr>
@@ -138,16 +141,25 @@
                         <tr>
                             <td width="20%"><label for="exampleInputEmail1">Loại tài sản</label></td>
                             <td width="40%">
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Loại tài sản">
+                                <select class="form-control" name="LoaiTaiSan">
+                                    @{
+                                        int idx = 0;
+                                        foreach (var el in LoaiTaiSan)
+                                        {
+                                            <option value="@el.MaTaiSan" selected="@(idx == 0 ? "selected" : "")">@el.TaiSan</option>
+                                            idx++;
+                                        }
+                                    }
+                                </select>
                             </td>
                             <td width="40%">
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên tài sản">
+                                <input type="text" class="form-control" id="TaoMoi_TenTaiSan" placeholder="Tên tài sản" name="TenTaiSan">
                             </td>
                         </tr>
                         <tr style="margin-top:10px">
                             <td><label for="exampleInputPassword1">Số tiền cầm</label></td>
                             <td>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                                <input type="text" class="form-control currency" id="TaoMoi_SoTien" placeholder="Nhập số tiền" name="SoTien">
                             </td>
                             <td></td>
                         </tr>
@@ -156,7 +168,16 @@
                                 <label for="exampleInputPassword1">Hình thức thanh toán</label>
                             </td>
                             <td>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                                <select class="form-control" name="HinhThucLai">
+                                    @{
+                                        int idy = 0;
+                                        foreach (var el in HinhThucLai)
+                                        {
+                                            <option value="@el.ID" selected="@(idy == 0 ? "selected" : "")">@el.HinhThucLai</option>
+                                            idy++;
+                                        }
+                                    }
+                                </select>
                             </td>
                             <td>
                                 <div class="checkbox">
@@ -171,7 +192,7 @@
                                 <label for="exampleInputPassword1">Lãi phí</label>
                             </td>
                             <td>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Lãi phí" name="LaiPhi">
                             </td>
                             <td></td>
                         </tr>
@@ -180,34 +201,49 @@
                                 <label for="exampleInputPassword1">Kỳ lãi phí</label>
                             </td>
                             <td>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Kỳ lãi" name="KyLai">
                             </td>
                             <td>(VD : 10 ngày đóng lãi phí 1 lần thì điền số 10 )</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="exampleInputPassword1">Lãi phí</label>
-                            </td>
-                            <td>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
-                            </td>
-                            <td></td>
                         </tr>
                         <tr>
                             <td>
                                 <label for="exampleInputPassword1">Ngày vay</label>
                             </td>
                             <td>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Nhập số tiền">
+                                <input type="date" class="form-control" id="exampleInputPassword1" name="NgayVay">
                             </td>
                             <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="exampleInputPassword1">Cửa hàng</label>
+                            </td>
+                            <td>
+                                <select class="form-control" name="Id_CuaHang">
+                                    @{  
+                                        int idz = 0;
+                                        foreach (var el in CuaHang)
+                                        {
+                                            <option value="@el.MaCuaHang" @if(idz == 0){ <text>selected="selected"</text>}>@el.TenCuaHang</option>
+                                            idz++;
+                                        };
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Thu lãi phí trước
+                                    </label>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td>
                                 <label for="exampleInputPassword1">Ghi chú</label>
                             </td>
                             <td colspan="2">
-                                <textarea rows="2" cols="50" class="form-control" placeholder="Nhập địa chỉ">
+                                <textarea rows="2" cols="50" class="form-control" placeholder="GhiChu" name="GhiChu">
                         </textarea>
                             </td>
                         </tr>
@@ -216,13 +252,15 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
                 </div>
             </div><!-- /.modal-content -->
         </form>
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
+<!-- /.modal -->
+
 <div class="modal fade" id="payForContract">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -309,7 +347,7 @@
                                             <tr>
                                                 <th><label for="exampleInputPassword1">Lãi đến ngày:</label></th>
                                                 <td>
-                                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
+                                                    <input type="date" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
                                                 </td>
                                                 <td>
                                                     ( Ngày đóng lãi phí tiếp : 11-02-2019)
@@ -360,7 +398,7 @@
                                             <th><input type="checkbox"></th>
                                         </tr>
                                     </thead>
-                                   
+
                                 </table>
                             </div>
 
@@ -381,9 +419,7 @@
                                             <td>
                                                 <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tên khách hàng">
                                             </td>
-                                            <td>
-                                                
-                                            </td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <th><label for="exampleInputPassword1">Ghi chú</label></th>
@@ -511,13 +547,49 @@
                 </div>
             </div>
         </div><!-- /.modal-content -->
-       
+
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 
+<script>
+    var IsTonTaiKhachHang = false;
+    function OnChangeCMND() {
+        var _cmnd = $('#TaoMoi_CMND').val();
+        $.ajax({
+            url: "/KhachHang/KiemTraKhachHangCoTonTaiHayKhong",
+            type: "get", //send it through get method
+            data: {
+                cmnd: _cmnd
+            },
+            success: function (data) {
+                //Do Something
+                if (data.status == 200) {
+                    $('#TaoMoi_TenKhachHang').val(data.khachhang.TenKhachHang);
+                    $('#TaoMoi_DiaChi').val(data.khachhang.DiaChi);
+                    $('#TaoMoi_SoDienThoai').val(data.khachhang.SoDienThoai);
+                    IsTonTaiKhachHang = true;
+                }
+                else {
+                    $('#TaoMoi_TenKhachHang').val("");
+                    $('#TaoMoi_DiaChi').val("");
+                    $('#TaoMoi_SoDienThoai').val("");
+                    IsTonTaiKhachHang = false;
+                    alert("Chưa tồn tại khách hàng có số CMND này");
+
+                }
+
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+</script>
+
 <link rel="stylesheet" href="~/admin-lte/datatables.net-bs/css/dataTables.bootstrap.min.css">
 @section scripts {
+
     <!-- DataTables -->
     <script src="~/admin-lte/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/admin-lte/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -527,6 +599,12 @@
     <script src="~/admin-lte/fastclick/lib/fastclick.js"></script>
 
     <script>
+
+        function commasBackToNumber(x) {
+            var input = x.replace(/[\D\s\._\-]+/g, "");
+            input = input ? parseInt(input, 10) : 0;
+            return input;
+        }
         $(function () {
             $('#example1').DataTable({
                 'paging': true,
@@ -548,14 +626,83 @@
                         "targets": 3
                     }
                 ]
-            })
+            });
         })
+
+        $(".currency").on("keyup", function (event) {
+            // 1
+            var $this = $(this);
+            var input = $this.val();
+
+            // 2
+            var input = input.replace(/[\D\s\._\-]+/g, "");
+
+            // 3
+            input = input ? parseInt(input, 10) : 0;
+
+            // 4
+            $this.val(function () {
+                return (input === 0) ? "" : input.toLocaleString("en-US");
+            })
+        });
         $("#btnCreate").click(function () {
             $('#createNewContract').modal('show');
         });
         function DongTienLai(MaHopDong) {
+            //Load Data
+            
+
+
             $('#payForContract').modal('show');
         }
+        $("#formCreateNewContract").on("submit", function (event) {
+            var formData = $("#formCreateNewContract").serializeArray();
+            for (i = 0; i < formData.length; i++) {
+                if (formData[i].name == "SoTien")
+                {
+                    formData[i].value = commasBackToNumber(formData[i].value);
+                    console.log(formData[i].value);
+                }
+            }
+            console.log(formData);
+             $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("_TaoMoiHopDong", "CamDo")',
+                    data: formData,
+                    dataType: "json",
+                    cache: false,
+                    success: function (data1) {
+                        if (data1.result == "success")
+                        {
+                            console.log(data1);
+                            var t = $('#example1').DataTable();
+                            t.row.add([
+                                data1.data.HopDong_Id,
+                                data1.data.TenKhachHang,
+                                data1.data.TaiSan,
+                                data1.data.SoTien,
+                                data1.data.NgayTaoHopDong,
+                                data1.data.LaiDaDong,
+                                data1.data.NoCu,
+                                data1.data.LaiPhiDenHomNay,
+                                data1.data.TinhTrang,
+                                data1.data.NgayPhaiDongLai,                                
+                                '<a href="#" class="btn btn-info btn-default" onclick="DongTienLai('+data1.data.HopDong_Id +')"><i class="fa fa-money"></i></a>'
+                                +'<button type="button" class="btn btn-danger btn-default"><i class="fa fa-remove"></i></button>'
+                                +'<button type="button" class="btn btn-default"><i class="fa fa-clock-o"></i></button>'
+                            ]).draw(false);
+                            $('#createNewContract').modal('hide');
+                        }
+                 },
+                 error: function (response) {
+                     console.log(response);
+                        alert(response);  //
+                 }
+             });
+
+            event.preventDefault();
+        });
+
     </script>
 }
 

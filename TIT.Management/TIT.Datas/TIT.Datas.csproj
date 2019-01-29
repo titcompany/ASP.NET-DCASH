@@ -77,6 +77,9 @@
     <Compile Include="BaoCaoHangNgay.cs">
       <DependentUpon>DatabaseContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaoCaoTongKet.cs">
+      <DependentUpon>DatabaseContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="CuaHang.cs">
       <DependentUpon>DatabaseContext.tt</DependentUpon>
     </Compile>

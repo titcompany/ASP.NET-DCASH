@@ -15,29 +15,17 @@ namespace TIT.Management.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        ApplicationDbContext context;
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
         }
 
         public ApplicationUserManager UserManager
@@ -61,6 +49,17 @@ namespace TIT.Management.Controllers
             return View();
         }
 
+        private ApplicationSignInManager _signInManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set { _signInManager = value; }
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -75,7 +74,7 @@ namespace TIT.Management.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -101,6 +100,11 @@ namespace TIT.Management.Controllers
             {
                 return View("Error");
             }
+            var user = await UserManager.FindByIdAsync(await SignInManager.GetVerifiedUserIdAsync());
+            if (user != null)
+            {
+                var code = await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
+            }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -120,7 +124,7 @@ namespace TIT.Management.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -136,41 +140,138 @@ namespace TIT.Management.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
+            //ViewBag.provinces = TIT.Datas.Services.ProvinceService.GetList();
+            //ViewBag.provinces = new MultiSelectList(TIT.Datas.Services.ProvinceService.GetList(), "ProvinceId", "Name");
+            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
+                                            .ToList(), "Name", "Name");
             return View();
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    ManagerId = User.Identity.GetUserId()
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("UpdateAccount", "Account", new { Id = user.Id });
                 }
                 AddErrors(result);
             }
+            //ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
+            //              .ToList(), "Name", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        //
+        // GET: /Account/Register
+        public ActionResult UpdateAccount(string Id)
+        {
+            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
+                                            .ToList(), "Name", "Name");
+            var userInfo = UserManager.FindById(Id);
+            UpdateAccountViewModel _user = new UpdateAccountViewModel
+            {
+                Id = Id,
+                UserName = userInfo.UserName,
+                Email = userInfo.Email,
+                FullName = userInfo.FullName,
+                //ProvinceId=userInfo.ProvinceId,
+                //ProvinceId=userInfo.ProvinceIds.Split(','),
+
+            };
+
+            var _roles = context.Roles.Where(u => !u.Name.Contains("Admin"));
+            foreach (var _role in _roles)
+            {
+                if (UserManager.IsInRole(Id, _role.Name))
+                    _user.Role = _role.Name;
+            }
+
+            return View(_user);
+        }
+
+        //
+        // POST: /Account/Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateAccount(UpdateAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = UserManager.FindById(model.Id);
+                user.FullName = model.FullName;
+                user.Email = model.Email;
+
+                var result = await UserManager.UpdateAsync(user);
+                if (!UserManager.IsInRole(model.Id, model.Role))
+                {
+                    var _roles = context.Roles.Select(ss => ss.Name).Where(u => !u.Contains("Admin")).ToArray();
+                    UserManager.RemoveFromRoles(model.Id, _roles);
+                    UserManager.AddToRole(model.Id, model.Role);
+                }
+
+                if (!string.IsNullOrEmpty(model.Password))
+                {
+                    bool isOldPassword = UserManager.CheckPassword(user, model.Password);
+
+                    if (!isOldPassword)
+                    {
+                        var token = UserManager.GeneratePasswordResetToken(model.Id);
+
+                        try
+                        {
+                            //Reset password using the reset token and the new password
+                            UserManager.ResetPassword(model.Id, token, model.Password);
+
+                        }
+                        catch (Exception e)
+                        {
+                            ModelState.AddModelError("", String.Format("{0} Exception caught.", e));
+                        }
+                    }
+                }
+
+                AddErrors(result);
+            }
+            //var _province = TIT.Datas.Services.ProvinceService.GetList();
+
+            //ViewBag.provinces = new MultiSelectList(_province, "ProvinceId", "Name");
+            //ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
+            //                              .ToList(), "Name", "Name");
+            //if (model.ProvinceId != null)
+            //{
+            //    var _selected = _province.Where(w => model.ProvinceId.Contains(w.ProvinceId.ToString())).ToList();
+            //    ViewBag.ProvinceSelected = "";
+            //    foreach (var _s in _selected)
+            //    {
+            //        ViewBag.ProvinceSelected += _s.Name + "; ";
+            //    }
+            //}
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
 
         //
         // GET: /Account/ConfirmEmail
@@ -209,7 +310,7 @@ namespace TIT.Management.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
@@ -248,7 +349,7 @@ namespace TIT.Management.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(model.UserName);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
@@ -391,7 +492,7 @@ namespace TIT.Management.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
@@ -403,25 +504,14 @@ namespace TIT.Management.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
+        //[MyAuthorize(Roles = "Admin")]
+        public ActionResult Index()
         {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
-
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
-            }
-
-            base.Dispose(disposing);
+            return View();
         }
+
+      
+
 
         #region Helpers
         // Used for XSRF protection when adding external logins

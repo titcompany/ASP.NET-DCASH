@@ -45,6 +45,7 @@ namespace TIT.Datas
         public virtual DbSet<BaoCaoHangNgay> BaoCaoHangNgays { get; set; }
         public virtual DbSet<HD_VayDuNoGiamDan> HD_VayDuNoGiamDan { get; set; }
         public virtual DbSet<LichSuThaoTac> LichSuThaoTacs { get; set; }
+        public virtual DbSet<BaoCaoTongKet> BaoCaoTongKets { get; set; }
     
         public virtual int CreateCustomerGoalFromLastMonth()
         {

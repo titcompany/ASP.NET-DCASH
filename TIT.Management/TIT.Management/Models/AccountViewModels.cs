@@ -49,44 +49,145 @@ namespace TIT.Management.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Tài khoản")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Ghi nhớ")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Tài khoản")]
+        public string UserName { get; set; }
+
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} ký tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [Compare("Password", ErrorMessage = "Xác nhận mật khẩu không trùng nhau.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Tên đầy đủ")]
+        public string FullName { get; set; }
+
+        [Required]
+        [Display(Name = "Vai trò")]
+        public string UserRoles { get; set; }
+
     }
+
+    public class UpdateAccountViewModel
+    {
+        public string Id { get; set; }
+
+        [Display(Name = "Tài khoản")]
+        public string UserName { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [StringLength(100, ErrorMessage = "Mật khẩu {0} dài ít nhất {2} ký tự.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [Compare("Password", ErrorMessage = "Xác nhận mật khẩu không trùng nhau.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Tên đầy đủ")]
+        public string FullName { get; set; }
+
+
+        [Display(Name = "Vai trò")]
+        public string Role { get; set; }
+
+    }
+    public class RegisterEmployeeViewModel
+    {
+        [Required]
+        [Display(Name = "Tài khoản")]
+        public string UserName { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} ký tự.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [Compare("Password", ErrorMessage = "Xác nhận mật khẩu không trùng nhau.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Tên đầy đủ")]
+        public string FullName { get; set; }
+
+        [Display(Name = "Thuộc cửa hàng")]
+        public int CuaHang_Id { get; set; }
+
+        [Display(Name = "Vai trò")]
+        public string Role { get; set; }
+    }
+    public class UpdateEmployeeViewModel
+    {
+        public string Id { get; set; }
+
+        [Display(Name = "Tài khoản")]
+        public string UserName { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [StringLength(100, ErrorMessage = "Mật khẩu {0} dài ít nhất {2} ký tự.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Xác nhận mật khẩu")]
+        [Compare("Password", ErrorMessage = "Xác nhận mật khẩu không trùng nhau.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Tên đầy đủ")]
+        public string FullName { get; set; }
+
+        [Display(Name = "Thuộc cửa hàng")]
+        public int CuaHang_Id { get; set; }
+    }
+
 
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Tài khoản")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -108,5 +209,18 @@ namespace TIT.Management.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class User
+    {
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string Roles { get; set; }
+    }
+
+    public class RoleView
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }

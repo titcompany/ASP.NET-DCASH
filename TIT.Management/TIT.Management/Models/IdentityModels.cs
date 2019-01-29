@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -6,9 +7,19 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace TIT.Management.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [Required]
+        public string FullName { get; set; }
+
+        [Required]
+        public int ManageLevel { get; set; }
+
+
+        public string ManagerId { get; set; }
+        public int CuaHang_Id { get; set; }
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -21,8 +32,10 @@ namespace TIT.Management.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("IdentityDbContext", throwIfV1Schema: false)
         {
+            /*System.Data.Entity.Database.SetInitializer(
+                new System.Data.Entity.MigrateDatabaseToLatestVersion<TITTraffic.Models.ApplicationDbContext, Db>());*/
         }
 
         public static ApplicationDbContext Create()

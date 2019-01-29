@@ -13,7 +13,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
     <!-- Ionicons -->
     <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
@@ -228,8 +227,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">QUẢN LÝ HỢP ĐỒNG</li>
-                    <li>@Html.LiActionLink( "CẦM ĐỒ","Home", "Index")</li>
-                    <li>@Html.LiActionLink("BÁT HỌ", "About", "About")</li>
+                    <li>@Html.LiActionLink( "CẦM ĐỒ","Index", "CamDo")</li>
+                    <li>@Html.LiActionLink("BÁT HỌ", "Index", "BatHo")</li>
                     <li class="header">QUẢN LÝ THU CHI</li>
                     <li>@Html.LiActionLink("PHIẾU THU", "Home", "Index")</li>
                     <li>@Html.LiActionLink("PHIẾU CHI", "About", "About")</li>
