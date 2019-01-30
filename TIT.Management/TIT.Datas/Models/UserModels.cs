@@ -57,6 +57,30 @@ namespace TIT.Datas.Models
             }
         }
 
+        internal CamDoDetailDataModel GetDetailViewModel(string Id_HopDong)
+        {
+            CamDoDetailDataModel result;
+            using (var context = new TIT_Entities())
+            {
+                result = (from hd in context.HD_CamDo
+                          join kh in context.KhachHangs on hd.KhachHang_CMND equals kh.CMND 
+                          where hd.HD_CamDo_Id == Id_HopDong
+                          select new CamDoDetailDataModel()
+                          {
+                              LaiSuat = hd.Lai,
+                              NgayDongLaiCuoiCung = hd.NgayCuoiCungDongTienLai.Value,
+                              NgayVay = hd.NgayCam,
+                              NoCu = 0,
+                              SoDienThoai =  kh.SoDienThoai1,
+                              SoTien = hd.SoTienCam,
+                              TenKhachHang = kh.TenKhachHang,
+                              TienLaiDaDong = 0,
+                              TrangThai = hd.TinhTrang
+                          }).FirstOrDefault();
+            }
+            return result;
+        }
+
         internal IEnumerable<CamDoPaymentHistoryDataModel> GetHistoryPaymentViewModel(string Id_HopDong)
         {
             IEnumerable<CamDoPaymentHistoryDataModel> result;

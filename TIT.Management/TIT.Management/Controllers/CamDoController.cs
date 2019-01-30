@@ -118,15 +118,31 @@ namespace TIT.Management.Controllers
         }
 
         public ActionResult _ThongTinChiTietCamDo(string HopDong_Id)
-        {
-            
+        {      
             var detail = TIT.Datas.Services.CamDoService.GetDetailViewModel(User.Identity.GetUserId(), GetUserRole(), HopDong_Id);
             CamDoDetaiViewlModel _returnModel = new CamDoDetaiViewlModel()
             {
-                LaiSuat = detail.
+                LaiSuat = detail.LaiSuat,
+                NgayDongLaiCuoiCung = detail.NgayDongLaiCuoiCung.ToString("dd/MM/yyyy"),
+                NgayVay = detail.NgayVay.ToString("dd/MM/yyyy"),
+                NoCu = String.Format("{0:n0}", detail.NoCu),
+                SoDienThoai = detail.SoDienThoai,
+                SoTien = String.Format("{0:n0}", detail.SoTien),
+                TenKhachHang = detail.TenKhachHang,
+                TienLaiDaDong = String.Format("{0:n0}", detail.TienLaiDaDong),
+                TrangThai = detail.TrangThai
             };
 
-            var lichSuDongLai = TIT.Datas.Services.CamDoService.GetHistoryPaymentViewModel(User.Identity.GetUserId(), GetUserRole(), HopDong_Id);
+            _returnModel.LichSuDongLai = TIT.Datas.Services.CamDoService.GetHistoryPaymentViewModel(User.Identity.GetUserId(), GetUserRole(), HopDong_Id).Select(x => new LichSuDongLaiCamDo()
+            {
+                DaDong = x.DaDong,
+                DenNgay = x.DenNgay,
+                SoNgay = x.SoNgay,
+                TienKhac = x.TienKhac,
+                TienLaiPhi = x.TienLaiPhi,
+                TongTienTra = x.TongTienTra,
+                TuNgay = x.TuNgay
+            });
             var lichSuThaoTac = TIT.Datas.Services.CamDoService.GetHistoryViewModel(User.Identity.GetUserId(), GetUserRole(), HopDong_Id);
             if (_returnModel != null)
                 return Json(new

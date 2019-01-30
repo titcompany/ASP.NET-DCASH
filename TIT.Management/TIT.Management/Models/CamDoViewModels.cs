@@ -44,23 +44,23 @@ namespace TIT.Management.Models
         public string SoTien{get; set;}
         public string NgayVay{get; set;}
         public string NgayDongLaiCuoiCung{get; set;}
-        public string LaiSuat{get; set;}
+        public int LaiSuat{get; set;}
         public string TienLaiDaDong{get; set;}
         public string NoCu{get; set;}
         public string TrangThai{get; set;}
         
-        public List<LichSuDongLaiCamDo> LichSuDongLai{get; set;}
-        public List<LichSuThaoTacCamDo> LichSuThaoTac{get; set;}
+        public IEnumerable<LichSuDongLaiCamDo> LichSuDongLai{get; set;}
+        public IEnumerable<LichSuThaoTacCamDo> LichSuThaoTac{get; set;}
     }
     public class LichSuDongLaiCamDo
     {
-        public string TuNgay{get; set;}
-        public string DenNgay{get; set;}
-        public string SoNgay{get; set;}
-        public string TienLaiPhi{get; set;}
-        public string TienKhac{get; set;}
+        public DateTime TuNgay{get; set;}
+        public DateTime DenNgay{get; set;}
+        public int SoNgay{get; set;}
+        public decimal TienLaiPhi{get; set;}
+        public decimal TienKhac{get; set;}
         public string TongTienTra{get; set;}
-        public bool DaDong{get; set;}
+        public int DaDong{get; set;}
     }
     public class LichSuThaoTacCamDo
     {

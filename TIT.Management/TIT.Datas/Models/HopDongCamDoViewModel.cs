@@ -43,12 +43,12 @@ namespace TIT.Datas.Models
     public class CamDoDetailDataModel {
         public string TenKhachHang { get; set; }
         public string SoDienThoai { get; set; }
-        public string SoTien { get; set; }
-        public string NgayVay { get; set; }
-        public string NgayDongLaiCuoiCung { get; set; }
-        public string LaiSuat { get; set; }
-        public string TienLaiDaDong { get; set; }
-        public string NoCu { get; set; }
+        public decimal SoTien { get; set; }
+        public DateTime NgayVay { get; set; }
+        public DateTime NgayDongLaiCuoiCung { get; set; }
+        public int LaiSuat { get; set; }
+        public decimal TienLaiDaDong { get; set; }
+        public decimal NoCu { get; set; }
         public string TrangThai { get; set; }
     }
     public class CamDoPaymentHistoryDataModel {

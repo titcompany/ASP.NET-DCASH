@@ -649,9 +649,21 @@
             $('#createNewContract').modal('show');
         });
         function DongTienLai(MaHopDong) {
+            console.log(MaHopDong);
             //Load Data
-            
+            $.ajax({
+                url: '@Url.Action("_ThongTinChiTietCamDo", "CamDo")' + "?HopDong_Id=" + MaHopDong,
+                type: 'GET',
+                success: function (data1) {
+                    if (data1.result == "success") {
+                        console.log(data1);
 
+                    }
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
 
             $('#payForContract').modal('show');
         }

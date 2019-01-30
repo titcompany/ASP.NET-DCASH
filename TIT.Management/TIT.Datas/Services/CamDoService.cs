@@ -25,7 +25,7 @@ namespace TIT.Datas.Services
             return userModel.InsertCamDo(model);
         }
 
-        public static object GetDetailViewModel(string userId, string role, string Id_HopDong)
+        public static CamDoDetailDataModel GetDetailViewModel(string userId, string role, string Id_HopDong)
         {
             UserModel userModel = UserModel.getUserModel(userId, role);
             return userModel.GetDetailViewModel(Id_HopDong);
