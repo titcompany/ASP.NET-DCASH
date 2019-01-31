@@ -13,7 +13,7 @@ namespace TIT.Management
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            createRolesandUsers();
+            //createRolesandUsers();
         }
         private void createRolesandUsers()
         {

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIT.Management", "TIT.Manag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIT.Datas", "TIT.Datas\TIT.Datas.csproj", "{5A701E43-9624-4E66-B607-D821C67289E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TIT.Data", "TIT.Data\TIT.Data.csproj", "{2AA62FDD-A1B4-4624-9CA8-B2A4F7B77F5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5A701E43-9624-4E66-B607-D821C67289E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A701E43-9624-4E66-B607-D821C67289E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A701E43-9624-4E66-B607-D821C67289E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AA62FDD-A1B4-4624-9CA8-B2A4F7B77F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AA62FDD-A1B4-4624-9CA8-B2A4F7B77F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AA62FDD-A1B4-4624-9CA8-B2A4F7B77F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AA62FDD-A1B4-4624-9CA8-B2A4F7B77F5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
